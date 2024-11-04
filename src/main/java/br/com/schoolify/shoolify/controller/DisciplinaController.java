@@ -1,63 +1,53 @@
 package br.com.schoolify.shoolify.controller;
 
-import br.com.schoolify.shoolify.model.Disciplina;
-import br.com.schoolify.shoolify.repository.DisciplinaRepository;
+import br.com.schoolify.shoolify.dto.DisciplinaDTO;
+import br.com.schoolify.shoolify.services.DisciplinaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.List;
-import java.util.Optional;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/disciplinas")
 public class DisciplinaController {
 
     @Autowired
-    private DisciplinaRepository disciplinaRepository;
+    private DisciplinaService service;
 
-    // GET - Listar todas as disciplinas
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<DisciplinaDTO> findById(@PathVariable Long id) {
+        DisciplinaDTO dto = service.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
     @GetMapping
-    public List<Disciplina> listarDisciplinas() {
-        return disciplinaRepository.findAll();
+    public ResponseEntity<Page<DisciplinaDTO>> findAll(Pageable pageable) {
+        Page<DisciplinaDTO> dto = service.findAll(pageable);
+        return ResponseEntity.ok(dto);
     }
 
-    // GET - Buscar disciplina por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Disciplina> buscarDisciplinaPorId(@PathVariable Long id) {
-        Optional<Disciplina> disciplina = disciplinaRepository.findById(id);
-        return disciplina.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // POST - Criar uma nova disciplina
     @PostMapping
-    public Disciplina criarDisciplina(@RequestBody Disciplina disciplina) {
-        return disciplinaRepository.save(disciplina);
+    public ResponseEntity<DisciplinaDTO> insert(@Valid @RequestBody DisciplinaDTO dto) {
+        dto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 
-    // PUT - Atualizar uma disciplina existente
-    @PutMapping("/{id}")
-    public ResponseEntity<Disciplina> atualizarDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplinaAtualizada) {
-        Optional<Disciplina> disciplinaOptional = disciplinaRepository.findById(id);
-        if (disciplinaOptional.isPresent()) {
-            Disciplina disciplina = disciplinaOptional.get();
-            disciplina.setNome(disciplinaAtualizada.getNome());
-            disciplina.setImgUrl(disciplinaAtualizada.getImgUrl());
-            Disciplina disciplinaSalva = disciplinaRepository.save(disciplina);
-            return ResponseEntity.ok(disciplinaSalva);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<DisciplinaDTO> update(@PathVariable Long id, @Valid @RequestBody DisciplinaDTO dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok(dto);
     }
 
-    // DELETE - Excluir uma disciplina
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarDisciplina(@PathVariable Long id) {
-        if (disciplinaRepository.existsById(id)) {
-            disciplinaRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

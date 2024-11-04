@@ -18,6 +18,7 @@ public class TipoUsuario {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
+
     private ClasseUsuario tipoUsuario;
 
     @OneToMany (mappedBy = "tipoUsuario")
