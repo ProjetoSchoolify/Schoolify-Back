@@ -22,12 +22,19 @@ public class EventoDTO {
     @NotBlank(message = "Campo requerido")
     private String descricao;
 
-    public EventoDTO(Long id, String nome, LocalDate dataInicio, LocalTime horaInicio, String descricao) {
+    @NotBlank(message = "Campo requerido")
+    private String imgUrl;
+
+    private Long usuario_id;
+
+    public EventoDTO(Long id, String nome, LocalDate dataInicio, LocalTime horaInicio, String descricao, String imgUrl, Long usuario_id) {
         this.id = id;
         this.nome = nome;
         this.dataInicio = dataInicio;
         this.horaInicio = horaInicio;
         this.descricao = descricao;
+        this.imgUrl = imgUrl;
+        this.usuario_id = usuario_id;
     }
 
     public EventoDTO(Evento entity) {
@@ -36,6 +43,8 @@ public class EventoDTO {
         dataInicio = entity.getDataInicio();
         horaInicio = entity.getHoraInicio();
         descricao = entity.getDescricao();
+        imgUrl = entity.getImgUrl();
+        usuario_id = entity.getUsuario().getId();
     }
 
     public Long getId() {
@@ -57,4 +66,8 @@ public class EventoDTO {
     public String getDescricao() {
         return descricao;
     }
+
+    public String getImgUrl() {return imgUrl;}
+
+    public Long getUsuario_id() {return usuario_id;}
 }

@@ -39,7 +39,8 @@ INSERT INTO tb_comentario(conteudo, data_hora, usuario_id, atividade_id) VALUES 
 INSERT INTO tb_comentario(conteudo, data_hora, usuario_id, atividade_id) VALUES ('Infelizmente eu e meu filho não pudemos comparecer!', '2022-07-07T15:15:00', 2, 2)
 
 -- Inserts  TB_EVENTO
-INSERT INTO tb_evento(nome, data_inicio, hora_inicio, descricao) VALUES ('Arraiá da Escolinha Criança Feliz', '2024-12-07', '09:30:00', 'Canjica, pamonha, brincadeiras e muita diversão na creche criança feliz!')
+INSERT INTO tb_evento(nome, data_inicio, hora_inicio, descricao, img_url, usuario_id) VALUES ('Arraiá da Escolinha Criança Feliz', '2024-06-07', '19:30:00', 'Canjica, pamonha, brincadeiras e muita diversão na creche criança feliz!', 'https://www.turminha.com.br/sites/default/files/styles/image_blog_805x503/public/festa-junina-blog_0.jpg?itok=WrFTFfEJ', 2)
+INSERT INTO tb_evento(nome, data_inicio, hora_inicio, descricao, img_url, usuario_id) VALUES ('Gincana Solidária 2024', '2024-11-07', '10:00:00', 'Venha fazer parte da nossa gincana solidária e ajude outras crianças a terem um fim de ano feliz também!', 'https://4.bp.blogspot.com/-v6hz6vHnk5E/UjEjTnaarlI/AAAAAAAABRE/VcGJW4oDpHY/s1600/gincana.gif', 9)
 
 -- Inserts  TB_SUGESTAOLIVRO
 INSERT INTO tb_sugestaolivro(nome, capa, link_livros, discprofturma_id) VALUES ('O País dos Dedos Gordos', 'https://checkout.loyola.com.br/resizer/view/false/false/true/false/3704.jpg', 'https://www.livrarialoyola.com.br/produto/o-pais-dos-dedos-gordos-218265', 1)

@@ -27,6 +27,8 @@ public class Evento {
     @NotNull
     @Column (columnDefinition = "TEXT")
     private String descricao;
+    @NotNull
+    private String imgUrl;
 
     @ManyToOne
     @JoinColumn (name = "usuario_id")
